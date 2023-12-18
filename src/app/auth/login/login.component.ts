@@ -27,9 +27,6 @@ export class LoginComponent {
     this.authService.login(this.email, this.password).subscribe(
       {
         next:(data) => {
-          localStorage.setItem('token', data.token);
-          // conexion del socket usando el token 
-          this.socketService.connect(data.token);
           console.log(data.token);
           this.router.navigate(['/chat']);
         },

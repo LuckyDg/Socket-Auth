@@ -1,14 +1,61 @@
-<h1 class="text-white text-2xl">Chat Real Time</h1>
-
-<div class="chat-container p-4">
-    <div class="messages overflow-auto h-64 mb-4">
-        <span class="text-white 2xl">{{userData?.role}}</span>
-        <div *ngFor="let msg of messages" class="p-2 bg-blue-200 my-2 rounded">
-            <strong>{{msg?.sender}}:</strong> {{ msg.text }}
+<div class="bg-gray-800 min-h-screen p-6">
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-4">
+        <h1 class="text-white text-2xl sm:text-3xl font-semibold mb-2 sm:mb-0">Chat Real Time</h1>
+        <div>
+            <span *ngIf="statusConnection" class="text-green-500">🟢 Conectado</span>
+            <span *ngIf="!statusConnection" class="text-red-500">🔴 Desconectado</span>
         </div>
     </div>
-    <div class="input-group flex">
-        <input [(ngModel)]="message" (keyup.enter)="sendMessage()" type="text" placeholder="Escribe un mensaje..." class="flex-1 p-2 border border-gray-300 rounded mr-2">
-        <button (click)="sendMessage()" class="bg-blue-500 text-white px-4 py-2 rounded">Enviar</button>
+
+
+    <div *ngIf="isAdmin">
+        <h3 class="text-lg font-semibold text-gray-300 mb-4">Panel de Administración 🖥️</h3>
+
+        <ul class="flex flex-wrap text-sm font-medium text-center text-gray-400 bg-gray-700 rounded-lg shadow mb-6">
+            <li class="mr-2">
+                <a class="inline-block py-2 px-4 text-gray-300 rounded-t-lg hover:bg-gray-600">
+                    Home
+                </a>
+            </li>
+            <li class="mr-2">
+                <a class="inline-block py-2 px-4 text-gray-300 rounded-t-lg hover:bg-gray-600">
+                    Calendar
+                </a>
+            </li>
+            <li class="mr-2">
+                <a class="inline-block py-2 px-4 text-gray-300 rounded-t-lg hover:bg-gray-600">
+                    Results
+                </a>
+            </li>
+            <li class="mr-2">
+                <a class="inline-block py-2 px-4 text-gray-300 rounded-t-lg hover:bg-gray-600">
+                    Live
+                </a>
+            </li>
+        </ul>
     </div>
+
+    <div class="chat-container bg-gray-700 rounded-lg shadow-lg p-4">
+        <div class="messages overflow-auto h-64 mb-4">
+            <span class="text-gray-300 text-lg">{{userData?.role}}</span>
+            <div *ngFor="let msg of messages" class="p-2 bg-gray-600 my-2 rounded">
+                <strong class="text-gray-200">
+                    {{msg?.sender}}:
+                </strong>
+                <span class="text-gray-100">
+                    {{ msg.text}}
+                </span>
+            </div>
+        </div>
+
+        <div class="input-group flex flex-col sm:flex-row">
+            <input [(ngModel)]="message" (keyup.enter)="sendMessage()" type="text" placeholder="Escribe un mensaje..."
+                class="flex-1 p-2 border border-gray-600 rounded mb-2 sm:mb-0 sm:mr-2 bg-gray-800 text-white">
+            <button (click)="sendMessage()"
+                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition duration-200 w-full sm:w-auto">
+                Enviar
+            </button>
+        </div>
+    </div>
+
 </div>
