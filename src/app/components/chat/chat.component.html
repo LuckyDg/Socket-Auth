@@ -1,0 +1,14 @@
+<h1 class="text-white text-2xl">Chat Real Time</h1>
+
+<div class="chat-container p-4">
+    <div class="messages overflow-auto h-64 mb-4">
+        <span class="text-white 2xl">{{userData?.role}}</span>
+        <div *ngFor="let msg of messages" class="p-2 bg-blue-200 my-2 rounded">
+            <strong>{{msg?.sender}}:</strong> {{ msg.text }}
+        </div>
+    </div>
+    <div class="input-group flex">
+        <input [(ngModel)]="message" (keyup.enter)="sendMessage()" type="text" placeholder="Escribe un mensaje..." class="flex-1 p-2 border border-gray-300 rounded mr-2">
+        <button (click)="sendMessage()" class="bg-blue-500 text-white px-4 py-2 rounded">Enviar</button>
+    </div>
+</div>
