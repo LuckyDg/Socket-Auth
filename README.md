@@ -1,4 +1,4 @@
-# ProyectRealtime
+# SocketAuth
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.0.
 
@@ -22,11 +22,31 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+## Running with Docker
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+To run this application using Docker, follow these steps:
+
+1. **Cloning the Repository**:
+First, clone the repository to your local machine:
+```bash
+git clone https://github.com/LuckyDg/Socket-Auth
+```
+2. **Building the Docker Image**:
+Navigate to the project directory and build the Docker image:
+```bash
+cd tu-repositorio
+docker build -t socket-auth .
+```
+3. **Running the Docker Container**:
+Once the image is built, you can run it in a Docker container:
+
+```bash
+docker run -d -p 8080:80 exam-socket-auth
+```
+This command starts a container and maps port 80 of the container to port 8080 of your host machine.
+
+## Accessing the Application:
+After the container starts, you can access the application by navigating to http://localhost:8080/ in your web browser.
 
 
-Libraries:
-npm install mapbox-gl --save
-npm install ngx-socket-io --save# RealTime-Auth
+

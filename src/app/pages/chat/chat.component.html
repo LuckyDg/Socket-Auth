@@ -1,0 +1,66 @@
+<div class="bg-gray-800 min-h-screen p-6">
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-4">
+        <h1 class="text-white text-2xl sm:text-3xl font-semibold mb-2 sm:mb-0">Chat Real Time</h1>
+        <div id="connectionStatus">
+            <span *ngIf="statusConnection" class="text-green-500">🟢 Conectado</span>
+            <span *ngIf="!statusConnection" class="text-red-500">🔴 Desconectado</span>
+        </div>
+    </div>
+
+    <div *ngIf="isAdmin">
+        <h3 class="text-lg font-semibold text-gray-300 mb-4">Panel de Administración 🖥️</h3>
+
+        <ul class="flex flex-wrap text-sm font-medium text-center text-gray-400 bg-gray-700 rounded-lg shadow mb-6">
+            <!-- Menú de administración -->
+            <!-- component -->
+            <ul class="list-reset flex border-b">
+                <li class="-mb-px mr-1">
+                    <a class="bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-blue-dark font-semibold"
+                        href="#">Active</a>
+                </li>
+                <li class="mr-1">
+                    <a class="bg-white inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold"
+                        href="#">Tab</a>
+                </li>
+                <li class="mr-1">
+                    <a class="bg-white inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold"
+                        href="#">Tab</a>
+                </li>
+                <li class="mr-1">
+                    <a class="bg-white inline-block py-2 px-4 text-grey-light font-semibold" href="#">Tab</a>
+                </li>
+            </ul>
+        </ul>
+    </div>
+
+    <div class="chat-container bg-gray-800 rounded-lg shadow-lg p-6">
+        <div class="messages overflow-auto h-80 mb-4 bg-gray-700 rounded-lg p-3">
+            <!-- Título del Usuario -->
+            <div class="mb-4">
+                <span class="text-gray-300 text-lg font-semibold">{{userRole}} | {{username | titlecase}}</span>
+            </div>
+    
+            <!-- Mensajes -->
+            <div *ngFor="let msg of messages" class="mt-2 p-3 bg-gray-600 rounded-lg shadow">
+                <div class="flex items-center mb-1">
+                    <span class="font-medium text-green-400 mr-2">{{msg.sender}}:</span>
+                    <span class="text-gray-200 flex-1">{{msg.message}}</span>
+                </div>
+                <div class="text-right text-gray-400 text-xs">
+                    {{msg.timestamp | date: 'medium'}}
+                </div>
+            </div>
+        </div>
+    
+        <!-- Input y Botón de Enviar -->
+        <div class="input-group flex flex-col sm:flex-row items-center">
+            <input id="chatMessage" (keyup.enter)="sendMessage()" [(ngModel)]="message" type="text" placeholder="Escribe un mensaje..."
+                class="flex-1 p-2 border border-gray-600 rounded mb-2 sm:mb-0 sm:mr-2 bg-gray-800 text-white">
+            <button (click)="sendMessage()"
+                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition duration-200">
+                Enviar
+            </button>
+        </div>
+    </div>
+    
+</div>

@@ -1,69 +1,68 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Socket, io } from 'socket.io-client';
-import { ChatMessage } from '../components/chat/chat.component';
+import { environment } from 'src/environments/environment.development';
+import { Message } from '../interfaces/message.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService {
+  private ws = environment.apiUrl;
 
   private socket!: Socket;
   private _isConnected = new BehaviorSubject<boolean>(false);
   public isConnected = this._isConnected.asObservable();
 
+  // private _recentMessages = new BehaviorSubject<Message[]>([]);
+  // public recentMessages = this._recentMessages.asObservable();
+
   connect(token: string) {
-    this.socket = io('http://localhost:3400', { query: { token } })
+    this.socket = io (`${this.ws}`, {
+      extraHeaders:{
+        Authorization: `Bearer ${token}`
+      }
+    })
 
     this.socket.on('connect', () => {
-      console.log('Conectado a WebSocket', this.socket.id);
       this._isConnected.next(true);
-    });
+    })
 
     this.socket.on('disconnect', () => {
-      console.log('Desconectado de WebSocket');
       this._isConnected.next(false);
-    });
-
-    this.socket.on('connect_error', (error) => {
-      console.error('Error de conexión a WebSocket', error);
-    });
-
-    this.socket.on('error', (error) => {
-      console.error('Error en WebSocket', error);
-    });
-
+    })
   }
 
   disconnect() {
-    if (this.socket) {
+    if (this.socket && this.socket.connected) {
       this.socket.disconnect();
     }
   }
+  
 
   sendMessage(message: string) {
     if (this.socket.connected) {
       this.socket.emit('message', message);
     } else {
-      console.error('Intento de enviar mensaje sin conexión socket activa.');
+      console.log('intento de enviar mensaje: sin conexion');
     }
   }
 
-  onMessage(): Observable<ChatMessage> {
-    return new Observable<ChatMessage>((observer) => {
-      if (this.socket) {
-        this.socket.on('message', (message: ChatMessage) => observer.next(message));
-      } else {
-        console.log('Socket no connection');
-      }
-    });
-  }
-
-  handleDisconnect(reconnect: () => void){
-    this.socket.on('disconnect', (reason) =>{
-      if(reason === 'io server disconnect'){
-        reconnect();
+  onMessage():Observable<Message>{
+    return new Observable<Message>((observer) => {
+      if(this.socket){
+        this.socket.on('message', (message: Message) => observer.next(message));
+      }else{
+        console.log('socket no connection')
       }
     })
+  }
+
+  onRecentMessages(): Observable<Message[]> {
+    return new Observable<Message[]>((observer) => {
+      this.socket.on('recent-messages', (messages: Message[]) => {
+        observer.next(messages);
+      });
+    });
   }
 }

@@ -3,9 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-
+import {HttpClientModule} from  '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -14,14 +12,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
+    HttpClientModule
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true
-    }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {
- }
+export class AppModule { }
